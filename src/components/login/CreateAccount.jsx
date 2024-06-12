@@ -27,7 +27,7 @@ const theme = createTheme({
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100vh",
-          backgroundColor: "#f4f4f4",
+          backgroundColor: "white",
         },
       },
     },
@@ -36,7 +36,7 @@ const theme = createTheme({
         root: {
           textAlign: "center",
           marginTop: "40px",
-          backgroundColor: "#fff",
+          backgroundColor: "white",
           padding: "20px",
           borderRadius: "8px",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
