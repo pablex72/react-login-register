@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -91,7 +91,7 @@ const theme = createTheme({
             borderColor: "gray",
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "gray", // Borde cian cuando no está enfocado
+            borderColor: "gray",
           },
         },
       },
@@ -107,6 +107,43 @@ const Rectangle18 = styled(Box)(({ theme }) => ({
 }));
 
 const ForgotPassword = () => {
+  const [isInputValid, setIsInputValid] = useState(true);
+  const [inputErrorText, setInputErrorText] = useState("");
+
+  const validateEmailOrPhone = (value) => {
+    if (value.trim() === "") {
+      setIsInputValid(true);
+      setInputErrorText("");
+      return;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const phoneRegex = /^\d+$/;
+  
+    if (emailRegex.test(value) || phoneRegex.test(value)) {
+      setIsInputValid(true);
+      setInputErrorText("");
+    } else {
+      setIsInputValid(false);
+      setInputErrorText("Debe ingresar un correo electrónico o número de teléfono válido");
+    }
+  };
+  
+
+  const handleInputChange = (e) => {
+    validateEmailOrPhone(e.target.value);
+  };
+
+  const handleSubmit = () => {
+
+    if (!isInputValid) {
+      alert("Por favor, ingrese un correo electrónico o número de teléfono válido");
+    } else {
+      console.log("Formulario enviado correctamente");
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm">
@@ -146,33 +183,41 @@ const ForgotPassword = () => {
               </Typography>
 
               <Grid item xs={12}>
-                <TextField fullWidth label="Correo electrónico" />
+                <TextField
+                  fullWidth
+                  label="Correo electrónico o número de teléfono"
+                  error={!isInputValid}
+                  helperText={inputErrorText}
+                  onChange={handleInputChange}
+                />
               </Grid>
 
               <Grid item xs={12}>
-                <Button fullWidth variant="contained" color="primary"
-                      sx={{textTransform :'none'} }
-                      >
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                  sx={{ textTransform: "none" }}
+                >
                   Enviar
                 </Button>
               </Grid>
 
               <Grid item xs={12}>
-  <Button
-    fullWidth
-    variant="contained"
-    sx={{
-        marginTop:'0px',
-      backgroundColor: "#fff",
-      color: "rgba(2, 136, 209, 1)",
-      textTransform: 'none', 
-    }}
-  >
-    Volver
-  </Button>
-</Grid>
-
-
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    marginTop: "0px",
+                    backgroundColor: "#fff",
+                    color: "rgba(2, 136, 209, 1)",
+                    textTransform: "none",
+                  }}
+                >
+                  Volver
+                </Button>
+              </Grid>
             </Grid>
           </Box>
         </Box>
