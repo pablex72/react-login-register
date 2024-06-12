@@ -14,7 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
-import logo from "../../assets/trc_logo_negro 1.png";
+import logo from "../../assets/images1.jpg";
+// import logo from "../../assets/trc_logo_negro 1.png";
 
 const theme = createTheme({
   typography: {
@@ -260,7 +261,7 @@ const CreateAccount = () => {
               label="Yo acepto los Términos y Condiciones"
             />
 
-            <Button fullWidth variant="contained" color="primary">
+            <Button fullWidth variant="contained" color="primary" sx={{textTransform :'none'}}>
               Registrarse
             </Button>
 

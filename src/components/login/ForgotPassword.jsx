@@ -8,9 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
-import logo from "../../assets/images1.jpg";
-// import logo from "../../assets/trc_logo_negro 1.png";
 import { styled } from "@mui/system";
+import logo from "../../assets/images1.jpg";
 
 const theme = createTheme({
   typography: {
@@ -37,14 +36,6 @@ const theme = createTheme({
           padding: "20px",
           borderRadius: "8px",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        },
-      },
-    },
-    MuiFormControlLabel: {
-      styleOverrides: {
-        root: {
-          marginTop: "20px",
-          colorRendering: "yellow",
         },
       },
     },
@@ -115,7 +106,7 @@ const Rectangle18 = styled(Box)(({ theme }) => ({
   marginBottom: "50px",
 }));
 
-const Login = () => {
+const ForgotPassword = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm">
@@ -134,60 +125,54 @@ const Login = () => {
               marginBottom: "20px",
             }}
           >
-            Bienvenido
+            ¿Olvidó su contraseña?
           </Typography>
           <Rectangle18 />
           <Box component="form" noValidate>
             <Grid container spacing={2}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: "Century Gothic",
+                  fontWeight: 400,
+                  fontSize: "15px",
+                  marginBottom: "20px",
+                }}
+                textAlign="left"
+                paddingLeft={"15px"}
+              >
+                Introduzca el correo electrónico o número de teléfono asociado a
+                tu cuenta para cambiar tu contraseña.
+              </Typography>
+
               <Grid item xs={12}>
                 <TextField fullWidth label="Correo electrónico" />
               </Grid>
+
               <Grid item xs={12}>
-                <TextField fullWidth type="password" label="Contraseña" />
-              </Grid>
-              <Grid item xs={12} textAlign="left">
-                <a
-                  href="/login"
-                  style={{
-                    color: "rgba(2, 136, 209, 1)",
-                    fontWeight: "bold",
-                    fontFamily: "Century Gothic",
-                    fontSize: "14px",
-                  }}
-                >
-                  ¿Olvidó su contraseña?
-                </a>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  sx={{ textTransform :'none', marginTop: 0 }}
-                  
-                >
-                  Iniciar sesión
+                <Button fullWidth variant="contained" color="primary"
+                      sx={{textTransform :'none'} }
+                      >
+                  Enviar
                 </Button>
               </Grid>
+
               <Grid item xs={12}>
-                <Typography
-                  variant="body2"
-                  sx={{ fontFamily: "Century Gothic", fontSize: "14px" }}
-                >
-                  ¿No tienes una cuenta?{" "}
-                  <a
-                    href="/login"
-                    style={{
-                      color: "rgba(2, 136, 209, 1)",
-                      fontWeight: "bold",
-                      fontFamily: "Century Gothic",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Regístrate
-                  </a>
-                </Typography>
-              </Grid>
+  <Button
+    fullWidth
+    variant="contained"
+    sx={{
+        marginTop:'0px',
+      backgroundColor: "#fff",
+      color: "rgba(2, 136, 209, 1)",
+      textTransform: 'none', 
+    }}
+  >
+    Volver
+  </Button>
+</Grid>
+
+
             </Grid>
           </Box>
         </Box>
@@ -196,4 +181,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

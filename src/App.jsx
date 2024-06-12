@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import CreateAccount from './components/login/CreateAccount'
 import Login from './components/login/Login'
+import ForgotPassword from './components/login/ForgotPassword'
 // import DetailComponent from './components/details/DetailComponent'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     <>
       <CreateAccount />
       <Login />
+      <ForgotPassword />
       {/* <DetailComponent /> */}
     </>
   )
