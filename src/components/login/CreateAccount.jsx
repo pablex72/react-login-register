@@ -1,4 +1,6 @@
 import React from "react";
+import { styled } from "@mui/system";
+
 import {
   Box,
   Button,
@@ -12,8 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
-// import logo from "../../assets/trc_logo_negro 1.png";
-import logo from "../../assets/images1.jpg";
+import logo from "../../assets/trc_logo_negro 1.png";
 
 const theme = createTheme({
   typography: {
@@ -47,6 +48,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           marginTop: "20px",
+          colorRendering: "yellow",
         },
       },
     },
@@ -65,8 +67,57 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-input": {
+            fontSize: "16px",
+          },
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "gray",
+            },
+            "&:hover fieldset": {
+              borderColor: "gray",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "gray",
+            },
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "gray",
+          "&.Mui-focused": {
+            color: "gray",
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "gray",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "gray", // Borde cian cuando no está enfocado
+          },
+        },
+      },
+    },
   },
 });
+
+const Rectangle18 = styled(Box)(({ theme }) => ({
+  width: "100%",
+  height: "2px",
+  background: "#a40000",
+  marginBottom: "50px",
+}));
 
 const CreateAccount = () => {
   return (
@@ -76,31 +127,45 @@ const CreateAccount = () => {
           <img
             src={logo}
             alt="TRC Logo"
-            style={{ width: "150px", marginBottom: "20px" }}
+            style={{
+              width: "189.75px",
+              height: "91px",
+              marginBottom: "50px",
+              marginTop: "20px",
+            }}
           />
-          <Typography variant="h5" component="h1" gutterBottom>
+
+          <Typography
+            variant="h5"
+            sx={{
+              fontFamily: "Century Gothic",
+              fontWeight: 700,
+              fontSize: "32px",
+              marginBottom: "20px",
+            }}
+          >
             Crea tu cuenta
           </Typography>
+
+          <Rectangle18 />
           <Box component="form" noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
-                {" "}
-                {/* Ocupa toda la fila en dispositivos pequeños y grandes */}
                 <TextField fullWidth label="Nombre de usuario" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6} sm={6}>
                 <TextField fullWidth label="Nombre" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6} sm={6}>
                 <TextField fullWidth label="Apellido" />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField fullWidth label="Correo electrónico" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField fullWidth type="password" label="Contraseña" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   type="password"
@@ -108,48 +173,84 @@ const CreateAccount = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <Grid container spacing={2}>
-                  {" "}
-                  {/* Fecha de nacimiento */}
-                  <Grid item xs={12} sm={4}>
-                    <Select fullWidth displayEmpty defaultValue="">
-                      <MenuItem value="" disabled>
-                        Día
-                      </MenuItem>
-                      {[...Array(31).keys()].map((day) => (
-                        <MenuItem key={day + 1} value={day + 1}>
-                          {day + 1}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                <Grid item xs={12} sm={12}>
+                  <Grid item xs={12} textAlign="left">
+                    <Typography
+                      variant="h6"
+                      component="h2"
+                      style={{ fontSize: "14px", color: "gray" }}
+                    >
+                      Fecha de nacimiento
+                    </Typography>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <Select fullWidth displayEmpty defaultValue="">
-                      <MenuItem value="" disabled>
-                        Mes
-                      </MenuItem>
-                      {Array.from({ length: 12 }, (_, i) => (
-                        <MenuItem key={i + 1} value={i + 1}>
-                          {i + 1}
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Select fullWidth displayEmpty defaultValue="">
+                        <MenuItem value="" disabled>
+                          Día
                         </MenuItem>
-                      ))}
-                    </Select>
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField fullWidth type="number" label="Año" />
+                        {[...Array(31).keys()].map((day) => (
+                          <MenuItem key={day + 1} value={day + 1}>
+                            {day + 1}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                      <Select fullWidth displayEmpty defaultValue="">
+                        <MenuItem value="" disabled>
+                          Mes
+                        </MenuItem>
+                        {[
+                          "Enero",
+                          "Febrero",
+                          "Marzo",
+                          "Abril",
+                          "Mayo",
+                          "Junio",
+                          "Julio",
+                          "Agosto",
+                          "Septiembre",
+                          "Octubre",
+                          "Noviembre",
+                          "Diciembre",
+                        ].map((month, index) => (
+                          <MenuItem key={index + 1} value={month}>
+                            {month}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                      <Select fullWidth displayEmpty defaultValue="">
+                        <MenuItem value="" disabled>
+                          Año
+                        </MenuItem>
+                        {[...Array(2024 - 1905 + 1).keys()]
+                          .map((i) => 1905 + i)
+                          .reverse()
+                          .map((year) => (
+                            <MenuItem key={year} value={year}>
+                              {year}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField fullWidth label="Nacionalidad" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField fullWidth label="Número de celular" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField fullWidth label="Dirección" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField fullWidth label="Documento de identidad" />
               </Grid>
             </Grid>
@@ -163,8 +264,22 @@ const CreateAccount = () => {
               Registrarse
             </Button>
 
-            <Typography variant="body2">
-              ¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a>
+            <Typography
+              variant="body2"
+              sx={{ fontFamily: "Century Gothic", fontSize: "14px" }}
+            >
+              ¿Ya tienes una cuenta?{" "}
+              <a
+                href="/login"
+                style={{
+                  color: "rgba(2, 136, 209, 1)",
+                  fontWeight: "bold",
+                  fontFamily: "Century Gothic",
+                  fontSize: "14px",
+                }}
+              >
+                Iniciar sesión
+              </a>
             </Typography>
           </Box>
         </Box>
