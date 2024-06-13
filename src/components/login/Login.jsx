@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
-import logo from "../../assets/images1.jpg";
+import logo from "../../assets/trc_logo_negro 1.png";
 import { styled } from "@mui/system";
 
 const theme = createTheme({
