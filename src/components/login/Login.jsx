@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
 import logo from "../../assets/images1.jpg";
-// import logo from "../../assets/trc_logo_negro 1.png";
 import { styled } from "@mui/system";
 
 const theme = createTheme({
@@ -100,7 +99,7 @@ const theme = createTheme({
             borderColor: "gray",
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "gray", // Borde cian cuando no está enfocado
+            borderColor: "gray", 
           },
         },
       },
@@ -116,6 +115,42 @@ const Rectangle18 = styled(Box)(({ theme }) => ({
 }));
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [isInputValid, setIsInputValid] = useState(true);
+  const [inputErrorText, setInputErrorText] = useState("");
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    setEmail(value);
+    if (value === "" || validateEmail(value)) {
+      setIsInputValid(true);
+      setInputErrorText("");
+    } else {
+      setIsInputValid(false);
+      setInputErrorText("Correo electrónico no es válido");
+    }
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    if (email === "") {
+      setIsInputValid(false);
+      setInputErrorText("El campo no puede estar vacío");
+    } else if (!validateEmail(email)) {
+      setIsInputValid(false);
+      setInputErrorText("Correo electrónico no es válido");
+    } else {
+      setIsInputValid(true);
+      setInputErrorText("");
+      // Aquí puedes manejar la lógica de envío del formulario
+    }
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm">
@@ -137,10 +172,16 @@ const Login = () => {
             Bienvenido
           </Typography>
           <Rectangle18 />
-          <Box component="form" noValidate>
+          <Box component="form" noValidate onSubmit={handleFormSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField fullWidth label="Correo electrónico" />
+                <TextField
+                  fullWidth
+                  label="Correo electrónico"
+                  error={!isInputValid}
+                  helperText={inputErrorText}
+                  onChange={handleInputChange}
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField fullWidth type="password" label="Contraseña" />
@@ -164,7 +205,7 @@ const Login = () => {
                   variant="contained"
                   color="primary"
                   sx={{ textTransform :'none', marginTop: 0 }}
-                  
+                  type="submit"
                 >
                   Iniciar sesión
                 </Button>
