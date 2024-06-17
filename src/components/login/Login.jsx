@@ -8,7 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
-import logo from "../../assets/trc_logo_negro 1.png";
+// import logo from "../../assets/trc_logo_negro 1.png";
+import logo from "../../assets/images1.jpg";
+
 import { styled } from "@mui/system";
 
 const theme = createTheme({
@@ -143,6 +145,7 @@ const Login = () => {
       setIsInputValid(true);
       setInputErrorText("");
       // Aquí puedes manejar la lógica de envío del formulario
+      console.log(email)
     }
   };
 
