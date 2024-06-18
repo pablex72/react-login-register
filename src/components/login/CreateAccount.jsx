@@ -178,24 +178,16 @@ const CreateAccount = () => {
   // Funcion para validar todos los campos
   const validateForm = () => {
     return (
-      userName.trim() !== "" &&
-      validateUserName(userName) &&
-      name.trim() !== "" &&
-      validateName(name) &&
-      lastName.trim() !== "" &&
-      validateLastName(lastName) &&
-      email.trim() !== "" &&
-      validateEmail(email) &&
-      password.trim() !== "" &&
-      validatePassword(password) &&
-      confirmPassword.trim() !== "" &&
-      password === confirmPassword &&
-      nationality.trim() !== "" &&
-      phoneNumber.trim() !== "" &&
-      validatePhoneNumber(phoneNumber) &&
-      address.trim() !== "" &&
-      idDocument.trim() !== "" &&
-      validateIdDocument(idDocument) &&
+      userName.trim() !== "" && validateUserName(userName) &&
+      name.trim() !== "" && validateName(name) &&
+      lastName.trim() !== "" && validateLastName(lastName) &&
+      email.trim() !== "" && validateEmail(email) &&
+      password.trim() !== "" && validatePassword(password) &&
+      confirmPassword.trim() !== "" && password === confirmPassword &&
+      nationality.trim() !== "" && validateNationality(nationality) &&
+      phoneNumber.trim() !== "" && validatePhoneNumber(phoneNumber) &&
+      address.trim() !== "" && validateAddress(address) &&
+      idDocument.trim() !== "" && validateIdDocument(idDocument) &&
       day.toString().trim() !== "" &&
       month.toString().trim() !== "" &&
       year.toString().trim() !== "" &&
@@ -417,7 +409,9 @@ const CreateAccount = () => {
         .toString()
         .padStart(2, "0")}-${year}`;
     }
-    // else if (){}
+    else if (day ===""&& month==="" && year===""){
+        setBornError("");
+    }
     else {
       setBornError("La fecha de nacimiento es obligatoria");
       return "";
