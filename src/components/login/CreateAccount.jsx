@@ -105,7 +105,7 @@ const theme = createTheme({
             borderColor: "gray",
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "gray", // Borde cian cuando no está enfocado
+            borderColor: "gray", 
           },
         },
       },
@@ -156,6 +156,11 @@ const CreateAccount = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [idDocument, setIdDocument] = useState("");
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [bornError, setBornError] = useState("");
+
   const [inputForm, setInputForm] = useState({
     userName: userName,
     name: name,
@@ -172,26 +177,21 @@ const CreateAccount = () => {
   // Funcion para validar todos los campos
   const validateForm = () => {
     return (
-      userName.trim() !== "" &&
-      validateUserName(userName) &&
-      name.trim() !== "" &&
-      validateName(name) &&
-      lastName.trim() !== "" &&
-      validateLastName(lastName) &&
-      email.trim() !== "" &&
-      validateEmail(email) &&
-      password.trim() !== "" &&
-      validatePassword(password) &&
-      confirmPassword.trim() !== "" &&
-      password === confirmPassword &&
+      userName.trim() !== "" && validateUserName(userName) &&
+      name.trim() !== "" && validateName(name) &&
+      lastName.trim() !== "" && validateLastName(lastName) &&
+      email.trim() !== "" && validateEmail(email) &&
+      password.trim() !== "" && validatePassword(password) &&
+      confirmPassword.trim() !== "" && password === confirmPassword &&
       nationality.trim() !== "" &&
-      phoneNumber.trim() !== "" &&
-      validatePhoneNumber(phoneNumber) &&
+      phoneNumber.trim() !== "" && validatePhoneNumber(phoneNumber) &&
       address.trim() !== "" &&
-      idDocument.trim() !== "" &&
-      validateIdDocument(idDocument)
-    );
+      idDocument.trim() !== "" && validateIdDocument(idDocument) &&
+      day.toString().trim() !== "" &&
+      month.toString().trim() !== "" &&
+      year.toString().trim() !== ""    );
   };
+  
 
   // useEffect para actualizar el estado de isApproved basado en la validacion
   useEffect(() => {
@@ -206,12 +206,14 @@ const CreateAccount = () => {
       phoneNumber,
       address,
       idDocument,
+      birthDate: handleBornChange(), // Agregar fecha de nacimiento al formulario
     });
-
+  
     if (validateForm()) {
       setIsApproved(true);
     } else {
       setIsApproved(false);
+    //   console.log("Todos los campos son obligatorios llenar");
     }
   }, [
     userName,
@@ -224,8 +226,11 @@ const CreateAccount = () => {
     phoneNumber,
     address,
     idDocument,
+    day,
+    month,
+    year,
   ]);
-
+  
   // Manejadores de cambios individuales para cada campo
   const handleUserNameChange = (event) => {
     const { value } = event.target;
@@ -267,9 +272,6 @@ const CreateAccount = () => {
   };
 
   // Manejadores de cambios para otros campos seguirían el mismo patrón...
-
-  /////////////////////////////////
-
   const handleLastNameChange = (event) => {
     const { value } = event.target;
     setLastName(value);
@@ -379,11 +381,38 @@ const CreateAccount = () => {
     }
   };
 
+  //   Born date
+
+  const handleDayChange = (event) => {
+    setDay(event.target.value);
+  };
+
+  const handleMonthChange = (event) => {
+    setMonth(event.target.value);
+  };
+
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
+
+  // Funcion para manejar los cambios de fecha de nacimiento
+  const handleBornChange = () => {
+    if (day && month && year) {
+      setBornError("");
+    //   return `${day}-${month}-${year}`;
+    return `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`;
+
+} else {
+      setBornError("La fecha de nacimiento es obligatoria");
+      return "";
+    }
+  };
+
+  ////////////////////////
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(inputForm);
-
   };
 
   //   validating entries
@@ -529,7 +558,12 @@ const CreateAccount = () => {
                   </Grid>
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
-                      <Select fullWidth displayEmpty defaultValue="">
+                      <Select
+                        fullWidth
+                        displayEmpty
+                        value={day}
+                        onChange={handleDayChange}
+                      >
                         <MenuItem value="" disabled>
                           Día
                         </MenuItem>
@@ -542,7 +576,12 @@ const CreateAccount = () => {
                     </Grid>
 
                     <Grid item xs={4}>
-                      <Select fullWidth displayEmpty defaultValue="">
+                      <Select
+                        fullWidth
+                        displayEmpty
+                        value={month}
+                        onChange={handleMonthChange}
+                      >
                         <MenuItem value="" disabled>
                           Mes
                         </MenuItem>
@@ -568,7 +607,12 @@ const CreateAccount = () => {
                     </Grid>
 
                     <Grid item xs={4}>
-                      <Select fullWidth displayEmpty defaultValue="">
+                      <Select
+                        fullWidth
+                        displayEmpty
+                        value={year}
+                        onChange={handleYearChange}
+                      >
                         <MenuItem value="" disabled>
                           Año
                         </MenuItem>
@@ -583,6 +627,11 @@ const CreateAccount = () => {
                       </Select>
                     </Grid>
                   </Grid>
+                  {bornError && (
+                    <Typography color="error" variant="caption">
+                      {bornError}
+                    </Typography>
+                  )}
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={12}>
