@@ -101,7 +101,7 @@ const theme = createTheme({
             borderColor: "gray",
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "gray", 
+            borderColor: "gray",
           },
         },
       },
@@ -118,8 +118,14 @@ const Rectangle18 = styled(Box)(({ theme }) => ({
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isInputValid, setIsInputValid] = useState(true);
   const [inputErrorText, setInputErrorText] = useState("");
+
+  const [inputLogin, setInputLogin] = useState({
+    email: email,
+    password: password,
+  });
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -131,21 +137,32 @@ const Login = () => {
       setIsInputValid(false);
       setInputErrorText("Correo electrónico no es válido");
     }
+    setInputLogin((prevInputLogin) => ({
+        ...prevInputLogin,
+        email:value
+    }))
+  };
+  const handleInputPasswordChange = (event) => {
+    const { value } = event.target;
+    setPassword(value);
+    setInputLogin((prevInputLogin) => ({
+        ...prevInputLogin,
+        password: value,
+      }));
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (email === "") {
+    if (email === "" && password === "") {
       setIsInputValid(false);
-      setInputErrorText("El campo no puede estar vacío");
+      setInputErrorText("Complete ambos campos");
     } else if (!validateEmail(email)) {
       setIsInputValid(false);
       setInputErrorText("Correo electrónico no es válido");
     } else {
       setIsInputValid(true);
       setInputErrorText("");
-      // Aquí puedes manejar la lógica de envío del formulario
-      console.log(email)
+      console.log(inputLogin);
     }
   };
 
@@ -187,7 +204,12 @@ const Login = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth type="password" label="Contraseña" />
+                <TextField
+                  fullWidth
+                  type="password"
+                  label="Contraseña"
+                  onChange={handleInputPasswordChange}
+                />
               </Grid>
               <Grid item xs={12} textAlign="left">
                 <a
@@ -207,7 +229,7 @@ const Login = () => {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  sx={{ textTransform :'none', marginTop: 0 }}
+                  sx={{ textTransform: "none", marginTop: 0 }}
                   type="submit"
                 >
                   Iniciar sesión

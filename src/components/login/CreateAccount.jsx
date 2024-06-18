@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 
 import {
@@ -145,7 +145,7 @@ const CreateAccount = () => {
   const [addressInputErrorText, setAddressInputErrorText] = useState("");
   const [idDocumentInputErrorText, setIdDocumentInputErrorText] = useState("");
 
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -155,8 +155,46 @@ const CreateAccount = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [idDocument, setIdDocument] = useState("");
+  const [inputForm, setInputForm] = useState({
+    userName: userName,
+    name: name,
+    lastName: lastName,
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+    nationality: nationality,
+    phoneNumber: phoneNumber,
+    address: address,
+    idDocument: idDocument,
+  });
 
-  const handleUsernameChange = (event) => {
+  useEffect(() => {
+    setInputForm({
+      userName,
+      name,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      nationality,
+      phoneNumber,
+      address,
+      idDocument,
+    });
+  }, [
+    userName,
+    name,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    nationality,
+    phoneNumber,
+    address,
+    idDocument,
+  ]);
+
+  const handleUserNameChange = (event) => {
     const { value } = event.target;
     setUsername(value);
     if (value === "" || validateUserName(value)) {
@@ -272,6 +310,18 @@ const CreateAccount = () => {
     }
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Validar que name y lastName estén llenos
+    if (!name.trim() || !lastName.trim()) {
+      console.log("Nombre y Apellido son obligatorios");
+      return;
+
+    }
+    console.log(inputForm)
+}
+
   //   validating entries
   const validateUserName = (username) => {
     // no signos
@@ -340,7 +390,7 @@ const CreateAccount = () => {
           </Typography>
 
           <Rectangle18 />
-          <Box component="form" noValidate>
+          <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
                 <TextField
@@ -348,7 +398,7 @@ const CreateAccount = () => {
                   label="Nombre de usuario"
                   error={!isUserNameInputValid}
                   helperText={userNameInputErrorText}
-                  onChange={handleUsernameChange}
+                  onChange={handleUserNameChange}
                 />
               </Grid>
               <Grid item xs={6} sm={6}>
@@ -519,6 +569,8 @@ const CreateAccount = () => {
               variant="contained"
               color="primary"
               sx={{ textTransform: "none" }}
+              type="submit"
+              disabled={isApproved} 
             >
               Registrarse
             </Button>
