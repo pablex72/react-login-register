@@ -121,6 +121,7 @@ const Rectangle18 = styled(Box)(({ theme }) => ({
 }));
 
 const CreateAccount = () => {
+  const [isApproved, setIsApproved] = useState(false);
   //   validations states
   const [isUserNameInputValid, setIsUserNameInputValid] = useState(true);
   const [isNameInputValid, setIsNameInputValid] = useState(true);
@@ -145,7 +146,7 @@ const CreateAccount = () => {
   const [addressInputErrorText, setAddressInputErrorText] = useState("");
   const [idDocumentInputErrorText, setIdDocumentInputErrorText] = useState("");
 
-  const [userName, setUsername] = useState("");
+  const [userName, setUserName] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -167,7 +168,32 @@ const CreateAccount = () => {
     address: address,
     idDocument: idDocument,
   });
+  ////////////////////////
+  // Funcion para validar todos los campos
+  const validateForm = () => {
+    return (
+      userName.trim() !== "" &&
+      validateUserName(userName) &&
+      name.trim() !== "" &&
+      validateName(name) &&
+      lastName.trim() !== "" &&
+      validateLastName(lastName) &&
+      email.trim() !== "" &&
+      validateEmail(email) &&
+      password.trim() !== "" &&
+      validatePassword(password) &&
+      confirmPassword.trim() !== "" &&
+      password === confirmPassword &&
+      nationality.trim() !== "" &&
+      phoneNumber.trim() !== "" &&
+      validatePhoneNumber(phoneNumber) &&
+      address.trim() !== "" &&
+      idDocument.trim() !== "" &&
+      validateIdDocument(idDocument)
+    );
+  };
 
+  // useEffect para actualizar el estado de isApproved basado en la validacion
   useEffect(() => {
     setInputForm({
       userName,
@@ -181,6 +207,12 @@ const CreateAccount = () => {
       address,
       idDocument,
     });
+
+    if (validateForm()) {
+      setIsApproved(true);
+    } else {
+      setIsApproved(false);
+    }
   }, [
     userName,
     name,
@@ -194,71 +226,108 @@ const CreateAccount = () => {
     idDocument,
   ]);
 
+  // Manejadores de cambios individuales para cada campo
   const handleUserNameChange = (event) => {
     const { value } = event.target;
-    setUsername(value);
-    if (value === "" || validateUserName(value)) {
-      setIsUserNameInputValid(true);
-      setUserNameInputErrorText("");
-    } else {
+    setUserName(value);
+
+    if (value === "" || !validateUserName(value)) {
       setIsUserNameInputValid(false);
       setUserNameInputErrorText(
-        "Nombre de usuario solo debería contener valores alfanuméricos"
+        value === ""
+          ? "El nombre de usuario es obligatorio"
+          : "Nombre de usuario solo debería contener valores alfanuméricos"
       );
+    } else {
+      setIsUserNameInputValid(true);
+      setUserNameInputErrorText("");
     }
+
+    // Actualizar isApproved basado en la validación
+    setIsApproved(validateForm());
   };
 
   const handleNameChange = (event) => {
     const { value } = event.target;
     setName(value);
-    if (value === "" || validateName(value)) {
+
+    if (value === "") {
+      setIsNameInputValid(false);
+      setNameInputErrorText("El nombre es obligatorio");
+    } else if (validateName(value)) {
       setIsNameInputValid(true);
       setNameInputErrorText("");
     } else {
       setIsNameInputValid(false);
       setNameInputErrorText("Introduzca un Nombre real");
     }
+
+    // Actualizar isApproved basado en la validación
+    setIsApproved(validateForm());
   };
+
+  // Manejadores de cambios para otros campos seguirían el mismo patrón...
+
+  /////////////////////////////////
 
   const handleLastNameChange = (event) => {
     const { value } = event.target;
     setLastName(value);
-    if (value === "" || validateLastName(value)) {
+    if (value === "") {
+      setIsLastNameInputValid(false);
+      setLastNameInputErrorText("El Apellido es Obligatorio");
+      setIsApproved(false);
+    } else if (validateLastName(value)) {
       setIsLastNameInputValid(true);
       setLastNameInputErrorText("");
+      setIsApproved(true);
     } else {
       setIsLastNameInputValid(false);
       setLastNameInputErrorText("Introduzca un Apellido real");
+      setIsApproved(false);
     }
   };
 
   const handleEmailChange = (event) => {
     const { value } = event.target;
     setEmail(value);
-    if (value === "" || validateEmail(value)) {
+    if (value === "") {
+      setIsEmailInputValid(false);
+      setEmailInputErrorText("El correo es obligatorio");
+      setIsApproved(false);
+    } else if (validateEmail(value)) {
       setIsEmailInputValid(true);
       setEmailInputErrorText("");
+      setIsApproved(true);
     } else {
       setIsEmailInputValid(false);
       setEmailInputErrorText("Correo electrónico no es válido");
+      setIsApproved(false);
     }
   };
 
   const handlePasswordChange = (event) => {
     const { value } = event.target;
     setPassword(value);
-    if (value === "" || validatePassword(value)) {
+    if (value === "") {
+      setIsPasswordInputValid(false);
+      setPasswordInputErrorText("La Contraseña es obligatoria");
+      setIsApproved(false);
+    } else if (validatePassword(value)) {
       setIsPasswordInputValid(true);
       setPasswordInputErrorText("");
+      setIsApproved(true);
     } else {
       setIsPasswordInputValid(false);
-      setPasswordInputErrorText("Introduzca un mejor password");
+      setPasswordInputErrorText("Introduzca una mejor contraseña");
+      setIsApproved(false);
     }
   };
 
   const handleConfirmPasswordChange = (event) => {
     const value = event.target.value;
     setConfirmPassword(value);
+    setIsApproved(true);
   };
 
   const handleNationalityChange = (event) => {
@@ -310,17 +379,12 @@ const CreateAccount = () => {
     }
   };
 
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(inputForm);
 
-    // Validar que name y lastName estén llenos
-    if (!name.trim() || !lastName.trim()) {
-      console.log("Nombre y Apellido son obligatorios");
-      return;
-
-    }
-    console.log(inputForm)
-}
+  };
 
   //   validating entries
   const validateUserName = (username) => {
@@ -570,7 +634,7 @@ const CreateAccount = () => {
               color="primary"
               sx={{ textTransform: "none" }}
               type="submit"
-              disabled={isApproved} 
+              disabled={!isApproved}
             >
               Registrarse
             </Button>
