@@ -110,6 +110,7 @@ const Rectangle18 = styled(Box)(({ theme }) => ({
 const ForgotPassword = () => {
   const [isInputValid, setIsInputValid] = useState(true);
   const [inputErrorText, setInputErrorText] = useState("");
+  const [email, setEmail] = useState({ email: "" });
 
   const validateEmailOrPhone = (value) => {
     if (value.trim() === "") {
@@ -117,31 +118,42 @@ const ForgotPassword = () => {
       setInputErrorText("");
       return;
     }
-  
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const phoneRegex = /^\d+$/;
-  
+
     if (emailRegex.test(value) || phoneRegex.test(value)) {
       setIsInputValid(true);
       setInputErrorText("");
     } else {
       setIsInputValid(false);
-      setInputErrorText("Debe ingresar un correo electrónico o número de teléfono válido");
+      setInputErrorText(
+        "Debe ingresar un correo electrónico o número de teléfono válido"
+      );
     }
   };
-  
 
   const handleInputChange = (e) => {
     validateEmailOrPhone(e.target.value);
+    const { value } = e.target;
+    setEmail(value);
   };
 
-  const handleSubmit = () => {
+  //   const handleSubmit = (event) => {
+  //     event.preventDefault();
+  //     console.log(inputForm);
+  //   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
     if (!isInputValid) {
-      alert("Por favor, ingrese un correo electrónico o número de teléfono válido");
+      alert(
+        "Por favor, ingrese un correo electrónico o número de teléfono válido"
+      );
     } else {
-      console.log("Formulario enviado correctamente");
+      console.log(email);
     }
   };
 
@@ -166,7 +178,7 @@ const ForgotPassword = () => {
             ¿Olvidó su contraseña?
           </Typography>
           <Rectangle18 />
-          <Box component="form" noValidate>
+          <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Typography
                 variant="h5"
@@ -198,8 +210,9 @@ const ForgotPassword = () => {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  onClick={handleSubmit}
+                  //   onClick={handleSubmit}
                   sx={{ textTransform: "none" }}
+                  type="submit"
                 >
                   Enviar
                 </Button>

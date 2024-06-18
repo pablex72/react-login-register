@@ -105,7 +105,7 @@ const theme = createTheme({
             borderColor: "gray",
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "gray", 
+            borderColor: "gray",
           },
         },
       },
@@ -145,7 +145,7 @@ const CreateAccount = () => {
     useState("");
   const [addressInputErrorText, setAddressInputErrorText] = useState("");
   const [idDocumentInputErrorText, setIdDocumentInputErrorText] = useState("");
-
+  //variables de form
   const [userName, setUserName] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -160,6 +160,7 @@ const CreateAccount = () => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [bornError, setBornError] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const [inputForm, setInputForm] = useState({
     userName: userName,
@@ -177,21 +178,30 @@ const CreateAccount = () => {
   // Funcion para validar todos los campos
   const validateForm = () => {
     return (
-      userName.trim() !== "" && validateUserName(userName) &&
-      name.trim() !== "" && validateName(name) &&
-      lastName.trim() !== "" && validateLastName(lastName) &&
-      email.trim() !== "" && validateEmail(email) &&
-      password.trim() !== "" && validatePassword(password) &&
-      confirmPassword.trim() !== "" && password === confirmPassword &&
+      userName.trim() !== "" &&
+      validateUserName(userName) &&
+      name.trim() !== "" &&
+      validateName(name) &&
+      lastName.trim() !== "" &&
+      validateLastName(lastName) &&
+      email.trim() !== "" &&
+      validateEmail(email) &&
+      password.trim() !== "" &&
+      validatePassword(password) &&
+      confirmPassword.trim() !== "" &&
+      password === confirmPassword &&
       nationality.trim() !== "" &&
-      phoneNumber.trim() !== "" && validatePhoneNumber(phoneNumber) &&
+      phoneNumber.trim() !== "" &&
+      validatePhoneNumber(phoneNumber) &&
       address.trim() !== "" &&
-      idDocument.trim() !== "" && validateIdDocument(idDocument) &&
+      idDocument.trim() !== "" &&
+      validateIdDocument(idDocument) &&
       day.toString().trim() !== "" &&
       month.toString().trim() !== "" &&
-      year.toString().trim() !== ""    );
+      year.toString().trim() !== "" &&
+      termsAccepted
+    );
   };
-  
 
   // useEffect para actualizar el estado de isApproved basado en la validacion
   useEffect(() => {
@@ -208,12 +218,12 @@ const CreateAccount = () => {
       idDocument,
       birthDate: handleBornChange(), // Agregar fecha de nacimiento al formulario
     });
-  
+
     if (validateForm()) {
       setIsApproved(true);
     } else {
       setIsApproved(false);
-    //   console.log("Todos los campos son obligatorios llenar");
+      //   console.log("Todos los campos son obligatorios llenar");
     }
   }, [
     userName,
@@ -229,8 +239,9 @@ const CreateAccount = () => {
     day,
     month,
     year,
+    termsAccepted,
   ]);
-  
+
   // Manejadores de cambios individuales para cada campo
   const handleUserNameChange = (event) => {
     const { value } = event.target;
@@ -321,7 +332,9 @@ const CreateAccount = () => {
       setIsApproved(true);
     } else {
       setIsPasswordInputValid(false);
-      setPasswordInputErrorText("Introduzca una mejor contraseña");
+      setPasswordInputErrorText(
+        "Las contraseñas deben tener 8 caracteres como mínimo y contener al menos mayúsculas, minúsculas, números y símbolos."
+      );
       setIsApproved(false);
     }
   };
@@ -399,10 +412,13 @@ const CreateAccount = () => {
   const handleBornChange = () => {
     if (day && month && year) {
       setBornError("");
-    //   return `${day}-${month}-${year}`;
-    return `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`;
-
-} else {
+      //   return `${day}-${month}-${year}`;
+      return `${day.toString().padStart(2, "0")}-${month
+        .toString()
+        .padStart(2, "0")}-${year}`;
+    }
+    // else if (){}
+    else {
       setBornError("La fecha de nacimiento es obligatoria");
       return "";
     }
@@ -435,7 +451,12 @@ const CreateAccount = () => {
     return emailRegex.test(email);
   };
   const validatePassword = (password) => {
-    const passwordRegex = /^[a-zA-Z0-9]*$/;
+    // const passwordRegex = /^[a-zA-Z0-9]*$/;
+    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~])[A-Za-z\d!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~]{8,}$/;
+    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~])[A-Za-z\d!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=[\]{}|\\;:'",.<>/?`~])[A-Za-z\d!@#$%^&*()_+=[\]{}|\\;:'",.<>/?`~]{8,}$/;
+
     return passwordRegex.test(password);
   };
   const validateNationality = (nationality) => {
@@ -447,7 +468,7 @@ const CreateAccount = () => {
     return phoneNumberRegex.test(phoneNumber);
   };
   const validateAddress = (address) => {
-    const addressRegex = /^[a-zA-Z0-9]*$/;
+    const addressRegex = /^[a-zA-Z0-9+\- ]*$/;
     return addressRegex.test(address);
   };
   const validateIdDocument = (idDocument) => {
@@ -673,7 +694,14 @@ const CreateAccount = () => {
             </Grid>
 
             <FormControlLabel
-              control={<Checkbox name="terms" color="primary" />}
+              control={
+                <Checkbox
+                  name="terms"
+                  color="primary"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                />
+              }
               label="Yo acepto los Términos y Condiciones"
             />
 
