@@ -135,9 +135,9 @@ const ForgotPassword = () => {
   };
 
   const handleInputChange = (e) => {
-    validateEmailOrPhone(e.target.value);
     const { value } = e.target;
-    setEmail(value);
+    validateEmailOrPhone(value);
+    setEmail({ email: value });
   };
 
   //   const handleSubmit = (event) => {
@@ -160,7 +160,7 @@ const ForgotPassword = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm">
-        <Box>
+        <Box sx={{display:"flex", flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
           <img
             src={logo}
             alt="TRC Logo"

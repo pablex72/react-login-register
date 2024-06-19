@@ -418,10 +418,9 @@ const CreateAccount = () => {
     }
   };
 
-  ////////////////////////
-
   const handleSubmit = (event) => {
     event.preventDefault();
+    //To view the details of output
     console.log(inputForm);
   };
 
@@ -445,9 +444,6 @@ const CreateAccount = () => {
     return emailRegex.test(email);
   };
   const validatePassword = (password) => {
-    // const passwordRegex = /^[a-zA-Z0-9]*$/;
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~])[A-Za-z\d!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~]{8,}$/;
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~])[A-Za-z\d!@#$%^&*()-_=+\[\]{}|;:'",.<>?/~]{8,}$/;
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=[\]{}|\\;:'",.<>/?`~])[A-Za-z\d!@#$%^&*()_+=[\]{}|\\;:'",.<>/?`~]{8,}$/;
 
@@ -472,17 +468,12 @@ const CreateAccount = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="sm">
-        <Box>
+      <Container maxWidth="sm" sx={{paddingBottom:"50px", paddingTop:"20px"}}>
+        <Box sx={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}> 
           <img
             src={logo}
             alt="TRC Logo"
-            style={{
-              width: "189.75px",
-              height: "91px",
-              marginBottom: "50px",
-              marginTop: "20px",
-            }}
+            style={{ width: "150px", marginBottom: "20px" }}
           />
 
           <Typography

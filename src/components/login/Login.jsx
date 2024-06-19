@@ -173,8 +173,8 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="sm">
-        <Box>
+      <Container maxWidth="sm" >
+        <Box sx={{display:"flex",flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
           <img
             src={logo}
             alt="TRC Logo"
@@ -213,7 +213,7 @@ const Login = () => {
               </Grid>
               <Grid item xs={12} textAlign="left">
                 <a
-                  href="/login"
+                  href="/forgot-password"
                   style={{
                     color: "rgba(2, 136, 209, 1)",
                     fontWeight: "bold",
@@ -242,7 +242,7 @@ const Login = () => {
                 >
                   ¿No tienes una cuenta?{" "}
                   <a
-                    href="/login"
+                    href="/"
                     style={{
                       color: "rgba(2, 136, 209, 1)",
                       fontWeight: "bold",
